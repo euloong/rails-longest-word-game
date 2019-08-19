@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class for the controller for the game
 class GamesController < ApplicationController
   require 'open-uri'
   require 'json'
@@ -23,14 +26,12 @@ class GamesController < ApplicationController
   end
 
   def message(word, grid)
-    if included?(word.upcase, grid)
-      if english_word?(word)
-        @message = "Congratulations! #{word} is a valid english word!"
-      else
-        @message = "Sorry but #{word} does not seem to be a valid english word."
-      end
-    else
-      @message = "Sorry but #{word} can't be built out of #{grid}"
-    end
+    @message = "Sorry but #{word} can't be built out of #{grid}"
+    return unless included?(word.upcase, grid)
+
+    @message = "Sorry but #{word} does not seem to be a valid english word."
+    return unless english_word?(word)
+
+    @message = "Congratulations! #{word} is a valid english word!"
   end
 end
